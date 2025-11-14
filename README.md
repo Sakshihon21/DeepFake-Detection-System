@@ -1,89 +1,70 @@
+DeepFake Detection System
 
-🛡️ DeepFake Detection System
-A modern, high-accuracy DeepFake Detection System built using Vision Transformers (ViT), EfficientNetV2, and MediaPipe.
-This project provides a complete deepfake forensics pipeline — from dataset preparation to training, evaluation, and visualization.
+A deep learning project designed to detect manipulated or fake videos using Vision Transformers (ViT), EfficientNetV2, and MediaPipe-based face extraction.
+
+📌 Overview
+
+This project focuses on identifying DeepFake content by combining modern deep neural network architectures with efficient preprocessing methods.
+It includes end-to-end modules for dataset preparation, preprocessing, training, evaluation, and inference.
 
 ✨ Key Features
-Advanced Models:
-Uses ViT and EfficientNetV2 for robust spatial feature learning.
 
-MediaPipe Face Extraction:
-Avoids heavy dependencies like dlib and performs fast, reliable face detection.
+Face Extraction using MediaPipe (Fast, no dlib required)
 
-Modular Pipeline:
-Clean structure for preprocessing, training, evaluation, and visualization.
+Two Strong Models: Vision Transformer & EfficientNetV2
 
-Explainability Tools:
-Provides Grad-CAM / attention maps for understanding model decisions.
+Ensemble-Ready Architecture for better accuracy
 
-Modern Training Setup:
-Mixed precision, One-Cycle LR, augmented datasets, and reproducible configs.
+Clean & Modular Codebase (easy to customize and extend)
 
-🚀 Project Structure
-powershell
-Copy code
+Training & Evaluation Scripts included
+
+Future-ready for video-level fake detection
+
+📂 Project Structure
 DeepFake-Detection-System/
-│── src/
-│   ├── data/                     # Dataset utilities
-│   ├── models/                   # ViT, EfficientNetV2, ensemble code
-│   ├── utils/                    # Preprocessing, augmentation, helpers
-│   └── inference/                # Inference scripts
-│
-│── train.py                      # Main training pipeline
-│── evaluate.py                   # Evaluation + metrics
-│── visualize_explanations.py     # Grad-CAM / attention visualizations
-│── setup_data_dirs.py            # Dataset directory builder
-│── test_setup.py                 # Quick environment test
-│── config.yaml                   # Central configuration
-│── requirements.txt              # Python dependencies
-│── README.md                     # Project documentation
-📦 Installation
-bash
-Copy code
-git clone https://github.com/Sakshihon21/DeepFake-Detection-System.git
-cd DeepFake-Detection-System
+├── data/                      # Dataset folders (real/fake)
+├── models/                    # ViT, EfficientNetV2, Ensemble
+├── utils/                     # Face extraction, augmentations
+├── inference/                 # Prediction scripts
+├── train.py                   # Train models
+├── evaluate.py                # Evaluate trained models
+├── requirements.txt           # Dependencies
+└── README.md                  # Documentation
+
+🚀 Getting Started
+1️⃣ Install Dependencies
 pip install -r requirements.txt
-🧩 Dataset Preparation
-Use the utility script to create dataset folders:
 
-bash
-Copy code
-python setup_data_dirs.py
-Add your deepfake dataset (FaceForensics++, DFDC, CelebDF, etc.) into the designated folders.
+2️⃣ Prepare Dataset
 
-🏋️ Training the Model
-Train ViT Model
-bash
-Copy code
+Organize your dataset as:
+
+data/
+ ├── real/
+ ├── fake/
+
+
+Use the provided preprocessing script for face extraction.
+
+3️⃣ Train a Model
 python train.py --model vit
-Train EfficientNetV2 Model
-bash
-Copy code
-python train.py --model efficient
-📈 Evaluation
-bash
-Copy code
+
+
+python train.py --model efficientnet
+
+4️⃣ Evaluate the Model
 python evaluate.py --model vit
-You’ll get metrics such as:
-✔ Accuracy
-✔ Precision, Recall, F1
-✔ Confusion Matrix
-✔ ROC-AUC
 
-🔍 Explainability (Grad-CAM / Attention)
-bash
-Copy code
-python visualize_explanations.py --image path/to/test.jpg
-🎯 Inference (Detect DeepFake on a Single Image)
-bash
-Copy code
-python src/inference/predict.py --image test.jpg
-🧠 Future Improvements
-Add Temporal 3D CNN for video-level deepfake detection
+5️⃣ Run Inference
+python inference/predict.py --image path/to/image.jpg
 
-Add hybrid ViT-CNN temporal fusion
+🎯 Future Enhancements
 
-Deploy FastAPI + Streamlit web interface
+Video-level temporal modeling (3D CNN / LSTM)
 
-Add synthetic data generation using diffusion models
+Ensemble of ViT + EfficientNet + Temporal CNN
 
+Streamlit/FastAPI demo interface
+
+Diffusion-based synthetic training data
