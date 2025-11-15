@@ -1,0 +1,103 @@
+# DeepFake Detection System Configuration
+
+# Data paths
+data:
+  train_dir: "data/train"
+  val_dir: "data/val"
+  test_dir: "data/test"
+  face_cache_dir: "data/face_cache"
+  
+# Preprocessing
+preprocessing:
+  face_detector: "retinaface"  # Options: mtcnn, retinaface, dlib
+  face_size: 224
+  frame_sample_rate: 2  # fps for frame extraction
+  temporal_length: 16  # frames per video sequence
+  min_face_size: 50
+  
+# Data augmentation
+augmentation:
+  photometric:
+    brightness_range: [0.8, 1.2]
+    contrast_range: [0.8, 1.2]
+    saturation_range: [0.8, 1.2]
+    hue_shift: 0.1
+    jpeg_quality_range: [60, 100]
+    blur_prob: 0.3
+    blur_sigma: [0.5, 2.0]
+  geometric:
+    rotation_range: 10
+    translation_range: 0.1
+    horizontal_flip: true
+    flip_prob: 0.5
+  temporal:
+    frame_shuffle_prob: 0.1
+    frame_skip_prob: 0.1
+
+# Model architecture
+model:
+  name: "ensemble"  # Options: cnn, vit, hybrid, ensemble
+  cnn_backbone: "efficientnet_b4"  # Options: xception, efficientnet_b0-b7
+  vit_model: "vit_base_patch16_224"  # Options: vit_base, vit_large, deit_base
+  temporal_model: "transformer"  # Options: lstm, gru, transformer, none
+  hidden_dim: 512
+  num_classes: 1  # Binary classification
+  dropout: 0.5
+  use_pretrained: true
+
+# Training
+training:
+  batch_size: 16
+  num_epochs: 50
+  learning_rate: 1e-4
+  weight_decay: 1e-4
+  optimizer: "adamw"  # Options: adamw, sgd
+  scheduler: "cosine"  # Options: cosine, step, plateau
+  loss: "focal"  # Options: bce, focal, weighted_bce
+  focal_alpha: 0.25
+  focal_gamma: 2.0
+  label_smoothing: 0.0
+  mixed_precision: true
+  gradient_clip: 1.0
+  early_stopping_patience: 10
+  save_best_only: true
+
+# Evaluation
+evaluation:
+  frame_aggregation: "majority"  # Options: majority, max, mean
+  metrics: ["accuracy", "precision", "recall", "f1", "roc_auc", "pr_auc"]
+  robustness_tests:
+    compression: true
+    resolution: true
+    adversarial: true
+    blur: true
+
+# Robustness testing
+robustness:
+  compression_qualities: [30, 50, 70, 90]
+  resolutions: [112, 160, 192, 224]
+  adversarial:
+    attack: "fgsm"  # Options: fgsm, pgd
+    epsilon: 0.01
+    test_only: true
+
+# Explainability
+explainability:
+  grad_cam: true
+  attention_visualization: true
+  save_visualizations: true
+  vis_dir: "results/visualizations"
+
+# Paths
+paths:
+  checkpoint_dir: "checkpoints"
+  log_dir: "logs"
+  results_dir: "results"
+  model_dir: "models"
+
+# Hardware
+hardware:
+  num_workers: 4
+  pin_memory: true
+  device: "cuda"  # Options: cuda, cpu
+
